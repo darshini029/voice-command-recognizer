@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice Command Recognizer</title>
+<style>body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;padding:30px}main{max-width:700px;margin:auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1)}h1{color:#223}textarea,input[type=text]{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:16px}button{margin-top:10px;padding:10px 16px;border:0;border-radius:8px;background:#2563eb;color:#fff;font-size:16px;cursor:pointer}button:hover{background:#1d4ed8}#result{margin-top:20px;padding:15px;background:#eef2ff;border-radius:8px;white-space:pre-wrap}small{color:#666}</style>
+</head>
+<body>
+<main>
+<h1>Voice Command Recognizer</h1>
+<p>Recognize simple spoken commands.</p>
+<button onclick="start()">Start Listening</button><p id="status">Say: open website, show time, or stop.</p>
+<div id="result"></div>
+</main>
+<script>
+const R=window.SpeechRecognition||window.webkitSpeechRecognition;function start(){if(!R){document.getElementById('result').textContent='Use Chrome or Edge for speech recognition.';return}const r=new R();r.lang='en-US';document.getElementById('status').textContent='Listening...';r.onresult=e=>{const c=e.results[0][0].transcript.toLowerCase();let out='Heard: '+c+'\n';if(c.includes('open website')){window.open('https://www.google.com','_blank');out+='Action: Opened website.'}else if(c.includes('show time')){out+='Action: '+new Date().toLocaleTimeString()}else if(c.includes('stop')){out+='Action: Stopped listening.'}else{out+='Command not recognized.'}document.getElementById('result').textContent=out;document.getElementById('status').textContent='Done.'};r.onerror=e=>{document.getElementById('result').textContent='Error: '+e.error};r.start();}
+</script>
+</body>
+</html>
